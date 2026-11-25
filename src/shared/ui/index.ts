@@ -1,5 +1,11 @@
+export type { AvatarProps } from './avatar';
+export { Avatar } from './avatar';
+export type { BadgeProps } from './badge';
+export { Badge } from './badge';
 export type { ButtonProps } from './button';
 export { Button } from './button';
+export type { ChipGroupProps, ChipProps } from './chip';
+export { Chip, ChipGroup } from './chip';
 export type { IconName, IconProps } from './icon';
 export { Icon } from './icon';
 export type { IconButtonProps } from './icon-button';
