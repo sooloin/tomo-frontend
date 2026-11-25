@@ -3,7 +3,13 @@ import { type ComponentProps, type ReactNode, useId } from 'react';
 
 import { cn } from '../lib/cn';
 import { FieldFrame } from './field';
-import { describedBy, fieldControlVariants, type FieldStatus, focusRing } from './field-control';
+import {
+  describedBy,
+  errorFocusRing,
+  fieldControlVariants,
+  type FieldStatus,
+  focusRing,
+} from './field-control';
 import { Icon } from './icon';
 
 export type SelectProps = Omit<ComponentProps<typeof SelectPrimitive.Root>, 'dir'> & {
@@ -48,7 +54,7 @@ export function Select({
           className={cn(
             fieldControlVariants({ status }),
             'cursor-pointer text-left outline-none data-[placeholder]:text-text-muted',
-            status !== 'error' && focusRing.visible,
+            status === 'error' ? errorFocusRing.visible : focusRing.visible,
             'disabled:cursor-not-allowed disabled:border-transparent disabled:bg-bg-disabled disabled:text-text-disabled',
           )}
         >

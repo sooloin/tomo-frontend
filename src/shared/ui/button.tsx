@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Slot } from 'radix-ui';
-import type { ComponentProps } from 'react';
+import type { ComponentProps, MouseEvent } from 'react';
 
 import { cn } from '../lib/cn';
 import { Icon, type IconName } from './icon';
@@ -63,17 +63,33 @@ export function Button({
   icon,
   asChild = false,
   type,
+  disabled,
+  onClick,
   className,
   children,
   ...props
 }: ButtonProps) {
   const Comp = asChild ? Slot.Root : 'button';
+  // 링크(asChild)의 disabled와 aria-disabled는 브라우저가 막아 주지 않으므로
+  // 클릭·Enter·Space로 실행되지 않게 직접 막는다. aria-disabled 버튼은 포커스는 받는다.
+  const ariaDisabled = props['aria-disabled'] === true || props['aria-disabled'] === 'true';
+  const blocked = ariaDisabled || (asChild && Boolean(disabled));
 
   return (
     <Comp
       type={asChild ? type : (type ?? 'button')}
+      disabled={asChild ? undefined : disabled}
       className={cn(buttonVariants({ variant, size }), className)}
       {...props}
+      aria-disabled={blocked || undefined}
+      tabIndex={asChild && disabled ? -1 : props.tabIndex}
+      onClick={(event: MouseEvent<HTMLButtonElement>) => {
+        if (blocked) {
+          event.preventDefault();
+          return;
+        }
+        onClick?.(event);
+      }}
     >
       {icon && <Icon name={icon} />}
       <Slot.Slottable>{children}</Slot.Slottable>

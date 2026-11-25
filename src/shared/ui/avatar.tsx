@@ -24,15 +24,31 @@ export type AvatarProps = Omit<ComponentProps<typeof AvatarPrimitive.Root>, 'chi
   VariantProps<typeof avatarVariants> & {
     name: string;
     src?: string | null;
+    // 외부 이미지 서버에 보고 있는 페이지 주소가 넘어가지 않도록 기본은 보내지 않는다.
+    referrerPolicy?: ComponentProps<'img'>['referrerPolicy'];
   };
 
 // 이미지가 없거나 불러오지 못하면 닉네임 첫 글자를 보여 준다.
-export function Avatar({ name, src, size, className, ...props }: AvatarProps) {
+export function Avatar({
+  name,
+  src,
+  size,
+  referrerPolicy = 'no-referrer',
+  className,
+  ...props
+}: AvatarProps) {
   const initial = Array.from(name.trim())[0] ?? '';
 
   return (
     <AvatarPrimitive.Root className={cn(avatarVariants({ size }), className)} {...props}>
-      {src && <AvatarPrimitive.Image src={src} alt={name} className="size-full object-cover" />}
+      {src && (
+        <AvatarPrimitive.Image
+          src={src}
+          alt={name}
+          referrerPolicy={referrerPolicy}
+          className="size-full object-cover"
+        />
+      )}
       <AvatarPrimitive.Fallback role="img" aria-label={name}>
         {initial}
       </AvatarPrimitive.Fallback>

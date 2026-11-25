@@ -2,7 +2,13 @@ import { type ComponentProps, type ReactNode, useId } from 'react';
 
 import { cn } from '../lib/cn';
 import { FieldFrame } from './field';
-import { describedBy, fieldControlVariants, type FieldStatus, focusRing } from './field-control';
+import {
+  describedBy,
+  errorFocusRing,
+  fieldControlVariants,
+  type FieldStatus,
+  focusRing,
+} from './field-control';
 import { Icon, type IconName } from './icon';
 
 export type InputProps = Omit<ComponentProps<'input'>, 'size'> & {
@@ -38,7 +44,7 @@ export function Input({
       <div
         className={cn(
           fieldControlVariants({ status }),
-          status !== 'error' && focusRing.within,
+          status === 'error' ? errorFocusRing.within : focusRing.within,
           disabled && 'border-transparent bg-bg-disabled text-text-disabled',
         )}
       >

@@ -103,3 +103,34 @@ export const Disabled: Story = {
     await expect(args.onClick).not.toHaveBeenCalled();
   },
 };
+
+export const DisabledLink: Story = {
+  args: { variant: 'secondary', asChild: true, disabled: true },
+  render: (args) => (
+    <Button {...args}>
+      <a href="#calendar">캘린더로 이동</a>
+    </Button>
+  ),
+  play: async ({ args, canvas }) => {
+    // 링크는 disabled 속성이 없으므로 aria-disabled + 탭 순서 제외 + 클릭 차단으로 막는다.
+    const link = canvas.getByRole('link', { name: '캘린더로 이동' });
+    await expect(link).toHaveAttribute('aria-disabled', 'true');
+    await expect(link).toHaveAttribute('tabindex', '-1');
+    await userEvent.click(link, { pointerEventsCheck: 0 });
+    await expect(args.onClick).not.toHaveBeenCalled();
+    await expect(window.location.hash).not.toBe('#calendar');
+  },
+};
+
+export const AriaDisabled: Story = {
+  args: { 'aria-disabled': true },
+  play: async ({ args, canvas }) => {
+    // aria-disabled는 포커스는 받지만 Enter·Space로도 실행되지 않는다.
+    const button = canvas.getByRole('button', { name: '집중 시작' });
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await userEvent.keyboard('{Enter}');
+    await userEvent.keyboard(' ');
+    await expect(args.onClick).not.toHaveBeenCalled();
+  },
+};

@@ -21,7 +21,7 @@ export function DropdownMenuContent({
       <DropdownMenuPrimitive.Content
         sideOffset={sideOffset}
         className={cn(
-          'z-50 flex flex-col gap-2 rounded-lg border border-border-subtle bg-bg-card p-8 shadow-popover outline-none',
+          'z-50 flex max-h-(--radix-dropdown-menu-content-available-height) flex-col gap-2 overflow-y-auto rounded-lg border border-border-subtle bg-bg-card p-8 shadow-popover outline-none',
           className,
         )}
         {...props}

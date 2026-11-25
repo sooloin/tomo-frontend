@@ -70,3 +70,32 @@ export const Cancels: Story = {
     await expect(args.onConfirm).not.toHaveBeenCalled();
   },
 };
+
+export const WaitsForAsyncConfirm: Story = {
+  args: {
+    // 저장에 시간이 걸리는 상황: 끝날 때까지 버튼이 막히고, 끝나면 닫힌다.
+    onConfirm: fn(() => new Promise<void>((resolve) => setTimeout(resolve, 300))),
+  },
+  play: async ({ args, canvas }) => {
+    await userEvent.click(canvas.getByRole('button', { name: '집중 종료' }));
+    const confirm = await screen.findByRole('button', { name: '종료하기' });
+    await userEvent.click(confirm);
+    await expect(confirm).toBeDisabled();
+    await expect(screen.getByRole('alertdialog')).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument());
+    await expect(args.onConfirm).toHaveBeenCalledTimes(1);
+  },
+};
+
+export const StaysOpenOnFailure: Story = {
+  args: {
+    onConfirm: fn(() => Promise.reject(new Error('네트워크 오류'))),
+  },
+  play: async ({ args, canvas }) => {
+    await userEvent.click(canvas.getByRole('button', { name: '집중 종료' }));
+    await userEvent.click(await screen.findByRole('button', { name: '종료하기' }));
+    await waitFor(() => expect(screen.getByRole('button', { name: '종료하기' })).toBeEnabled());
+    await expect(screen.getByRole('alertdialog')).toBeInTheDocument();
+    await expect(args.onConfirm).toHaveBeenCalledTimes(1);
+  },
+};

@@ -19,6 +19,13 @@ export const fieldControlVariants = cva(
 );
 
 // Chrome은 테두리 두께를 정수 px로 반올림하므로 1.5px 테두리는 1px 테두리 + 0.5px 안쪽 링으로 그린다.
+// 오류 상태는 빨간 테두리를 유지하므로, 포커스는 바깥 외곽선으로 따로 보여 준다.
+export const errorFocusRing = {
+  within: 'focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-text-danger',
+  visible:
+    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-danger data-[state=open]:outline-2 data-[state=open]:outline-offset-2 data-[state=open]:outline-text-danger',
+};
+
 export const focusRing = {
   within:
     'focus-within:border-border-focus focus-within:ring-[0.5px] focus-within:ring-border-focus focus-within:ring-inset',

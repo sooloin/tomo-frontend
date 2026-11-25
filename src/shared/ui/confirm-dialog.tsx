@@ -1,5 +1,5 @@
 import { AlertDialog } from 'radix-ui';
-import type { ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 
 import { Button } from './button';
 import {
@@ -21,7 +21,9 @@ export type ConfirmDialogProps = {
   // 파괴적 동작이면 "종료하기"처럼 동사로 쓴다.
   confirmLabel: string;
   cancelLabel?: string;
-  onConfirm: () => void;
+  // Promise를 돌려주면 끝날 때까지 버튼을 막고, 성공하면 닫는다. 실패하면 열어 둔다.
+  // 실패 안내(토스트 등)는 onConfirm 안에서 처리한다.
+  onConfirm: () => void | Promise<unknown>;
 };
 
 export function ConfirmDialog({
@@ -35,8 +37,35 @@ export function ConfirmDialog({
   cancelLabel,
   onConfirm,
 }: ConfirmDialogProps) {
+  const [innerOpen, setInnerOpen] = useState(defaultOpen ?? false);
+  const [pending, setPending] = useState(false);
+  const isControlled = open !== undefined;
+
+  const setOpen = (next: boolean) => {
+    if (!isControlled) setInnerOpen(next);
+    onOpenChange?.(next);
+  };
+
+  const handleConfirm = async () => {
+    setPending(true);
+    try {
+      await onConfirm();
+      setOpen(false);
+    } catch {
+      // 실패하면 다시 시도할 수 있도록 열어 둔다.
+    } finally {
+      setPending(false);
+    }
+  };
+
   return (
-    <AlertDialog.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
+    <AlertDialog.Root
+      open={isControlled ? open : innerOpen}
+      onOpenChange={(next) => {
+        // 처리 중에는 Esc 등으로 닫히지 않게 한다.
+        if (!pending) setOpen(next);
+      }}
+    >
       {trigger && <AlertDialog.Trigger asChild>{trigger}</AlertDialog.Trigger>}
       <AlertDialog.Portal>
         <AlertDialog.Overlay className={dialogOverlayClass} />
@@ -56,11 +85,22 @@ export function ConfirmDialog({
           <div className={dialogActionsClass}>
             {cancelLabel && (
               <AlertDialog.Cancel asChild>
-                <Button variant="secondary">{cancelLabel}</Button>
+                <Button variant="secondary" disabled={pending}>
+                  {cancelLabel}
+                </Button>
               </AlertDialog.Cancel>
             )}
             <AlertDialog.Action asChild>
-              <Button variant="primary" onClick={onConfirm}>
+              <Button
+                variant="primary"
+                disabled={pending}
+                aria-busy={pending || undefined}
+                onClick={(event) => {
+                  // Action은 누르면 바로 닫히므로 막고, 끝난 뒤 직접 닫는다.
+                  event.preventDefault();
+                  void handleConfirm();
+                }}
+              >
                 {confirmLabel}
               </Button>
             </AlertDialog.Action>
