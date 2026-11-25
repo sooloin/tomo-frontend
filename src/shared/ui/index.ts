@@ -2,12 +2,27 @@ export type { AvatarProps } from './avatar';
 export { Avatar } from './avatar';
 export type { BadgeProps } from './badge';
 export { Badge } from './badge';
+export type { BannerProps } from './banner';
+export { Banner } from './banner';
 export type { ButtonProps } from './button';
 export { Button } from './button';
 export type { CheckboxProps } from './checkbox';
 export { Checkbox } from './checkbox';
 export type { ChipGroupProps, ChipProps } from './chip';
 export { Chip, ChipGroup } from './chip';
+export type { ConfirmDialogProps } from './confirm-dialog';
+export { ConfirmDialog } from './confirm-dialog';
+export type { DialogContentProps } from './dialog';
+export {
+  Dialog,
+  DialogActions,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from './dialog';
 export type { FieldStatus } from './field-control';
 export type { IconName, IconProps } from './icon';
 export { Icon } from './icon';
