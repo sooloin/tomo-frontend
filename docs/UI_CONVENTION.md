@@ -233,5 +233,5 @@ import { SignupModal } from '@/features/signup';
 
 ### CTA 버튼
 
-- 주요 CTA에는 `Button variant="cta"`를 사용하며 화면당 최대 하나만 배치한다.
+- 주요 CTA에는 `Button variant="primary"`를 사용하며 화면당 최대 하나만 배치한다.
 - 폼 제출과 일반 동작은 기본 `Button`을 사용한다.
