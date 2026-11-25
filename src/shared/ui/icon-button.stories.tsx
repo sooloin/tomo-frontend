@@ -66,7 +66,11 @@ export const Variants: Story = {
 export const WithDot: Story = {
   args: { icon: 'bell', 'aria-label': '알림, 새 알림 있음', dot: true },
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole('button', { name: '알림, 새 알림 있음' })).toBeInTheDocument();
+    const button = canvas.getByRole('button', { name: '알림, 새 알림 있음' });
+    // 점은 장식이라 보조 기술에서는 숨기고, 화면에는 보여야 한다.
+    const dot = button.querySelector('span[aria-hidden]');
+    await expect(dot).toBeInTheDocument();
+    await expect(dot).toBeVisible();
   },
 };
 

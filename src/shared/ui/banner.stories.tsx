@@ -69,6 +69,7 @@ export const WithActionAndClose: Story = {
   },
   play: async ({ args, canvas }) => {
     await expect(canvas.getByRole('alert')).toHaveTextContent('기록을 불러오지 못했어요.');
+    await expect(canvas.getByRole('button', { name: '다시 시도' })).toBeVisible();
     await userEvent.click(canvas.getByRole('button', { name: '닫기' }));
     await expect(args.onClose).toHaveBeenCalledTimes(1);
   },
