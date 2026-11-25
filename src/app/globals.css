@@ -67,6 +67,8 @@
   --color-chart-grid: var(--tomo-chart-grid);
   --color-brand-kakao: var(--tomo-brand-kakao);
   --color-brand-kakao-text: var(--tomo-brand-kakao-text);
+  /* 이슈 #8의 이름(kakao-foreground). Figma 이름 brand/kakao-text와 같은 색 */
+  --color-brand-kakao-foreground: var(--tomo-brand-kakao-text);
   --color-brand-google: var(--tomo-brand-google);
 
   /* Semantic: fonts */
