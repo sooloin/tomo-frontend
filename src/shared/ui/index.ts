@@ -6,6 +6,8 @@ export type { BannerProps } from './banner';
 export { Banner } from './banner';
 export type { ButtonProps } from './button';
 export { Button } from './button';
+export type { CardActionProps, CardHeaderProps } from './card';
+export { Card, CardAction, CardHeader } from './card';
 export type { CheckboxProps } from './checkbox';
 export { Checkbox } from './checkbox';
 export type { ChipGroupProps, ChipProps } from './chip';
@@ -33,6 +35,8 @@ export {
   MenuLabel,
   MenuSeparator,
 } from './dropdown-menu';
+export type { EmptyStateProps } from './empty-state';
+export { EmptyState } from './empty-state';
 export type { FieldStatus } from './field-control';
 export type { IconName, IconProps } from './icon';
 export { Icon } from './icon';
