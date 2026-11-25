@@ -23,6 +23,16 @@ export {
   DialogTitle,
   DialogTrigger,
 } from './dialog';
+export type { DropdownMenuContentProps, MenuItemProps } from './dropdown-menu';
+export {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  MenuGroup,
+  MenuItem,
+  MenuLabel,
+  MenuSeparator,
+} from './dropdown-menu';
 export type { FieldStatus } from './field-control';
 export type { IconName, IconProps } from './icon';
 export { Icon } from './icon';
