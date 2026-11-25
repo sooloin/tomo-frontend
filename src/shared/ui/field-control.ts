@@ -35,3 +35,8 @@ export const helperTone: Record<FieldStatus, string> = {
 export function helperId(id: string) {
   return `${id}-helper`;
 }
+
+// 호출부가 넘긴 aria-describedby를 덮어쓰지 않고 도움말 id와 함께 건다.
+export function describedBy(id: string, hasHelper: boolean, extra?: string) {
+  return [hasHelper ? helperId(id) : undefined, extra].filter(Boolean).join(' ') || undefined;
+}

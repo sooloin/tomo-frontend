@@ -5,9 +5,14 @@ import { cn } from '../lib/cn';
 
 export type ChipGroupProps = ComponentProps<typeof ToggleGroup.Root>;
 
+// 하나만 고르면 칩이 radio가 되므로 묶음도 radiogroup으로 알린다.
 export function ChipGroup({ className, ...props }: ChipGroupProps) {
   return (
-    <ToggleGroup.Root role="group" className={cn('flex flex-wrap gap-8', className)} {...props} />
+    <ToggleGroup.Root
+      role={props.type === 'single' ? 'radiogroup' : 'group'}
+      className={cn('flex flex-wrap gap-8', className)}
+      {...props}
+    />
   );
 }
 

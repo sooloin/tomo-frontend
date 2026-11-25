@@ -25,6 +25,7 @@ export type BannerProps = Omit<ComponentProps<'div'>, 'role'> &
     closeLabel?: string;
   };
 
+// 닫기 버튼은 20px 아이콘이지만 before로 누를 수 있는 영역을 44px까지 넓힌다.
 // 오류(danger)는 바로 읽히도록 alert, 나머지는 status로 알린다.
 export function Banner({
   tone,
@@ -50,7 +51,7 @@ export function Banner({
           type="button"
           aria-label={closeLabel}
           onClick={onClose}
-          className="inline-flex shrink-0 cursor-pointer rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus"
+          className="relative inline-flex shrink-0 cursor-pointer rounded-sm before:absolute before:-inset-12 before:content-[''] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus"
         >
           <Icon name="close" className="size-20" />
         </button>

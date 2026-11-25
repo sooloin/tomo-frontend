@@ -3,7 +3,7 @@ import { type ComponentProps, type ReactNode, useId } from 'react';
 
 import { cn } from '../lib/cn';
 import { FieldFrame } from './field';
-import { fieldControlVariants, type FieldStatus, focusRing, helperId } from './field-control';
+import { describedBy, fieldControlVariants, type FieldStatus, focusRing } from './field-control';
 import { Icon } from './icon';
 
 export type SelectProps = Omit<ComponentProps<typeof SelectPrimitive.Root>, 'dir'> & {
@@ -13,6 +13,7 @@ export type SelectProps = Omit<ComponentProps<typeof SelectPrimitive.Root>, 'dir
   status?: FieldStatus;
   placeholder?: ReactNode;
   className?: string;
+  'aria-describedby'?: string;
 };
 
 export function Select({
@@ -24,6 +25,7 @@ export function Select({
   disabled,
   className,
   children,
+  'aria-describedby': ariaDescribedBy,
   ...props
 }: SelectProps) {
   const fallbackId = useId();
@@ -42,7 +44,7 @@ export function Select({
         <SelectPrimitive.Trigger
           id={triggerId}
           aria-invalid={status === 'error' || undefined}
-          aria-describedby={helper ? helperId(triggerId) : undefined}
+          aria-describedby={describedBy(triggerId, Boolean(helper), ariaDescribedBy)}
           className={cn(
             fieldControlVariants({ status }),
             'cursor-pointer text-left outline-none data-[placeholder]:text-text-muted',
@@ -82,7 +84,7 @@ export function SelectItem({ className, children, ...props }: SelectItemProps) {
   return (
     <SelectPrimitive.Item
       className={cn(
-        'flex cursor-pointer items-center rounded-sm px-12 py-8 text-label text-text-primary outline-none select-none',
+        'flex cursor-pointer items-center gap-8 rounded-sm px-12 py-8 text-label text-text-primary outline-none select-none',
         'data-[highlighted]:bg-accent-tomato-soft data-[highlighted]:text-accent-tomato',
         'data-[state=checked]:bg-accent-tomato-soft data-[state=checked]:text-accent-tomato',
         'data-[disabled]:pointer-events-none data-[disabled]:text-text-disabled',
@@ -90,7 +92,12 @@ export function SelectItem({ className, children, ...props }: SelectItemProps) {
       )}
       {...props}
     >
-      <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+      <span className="min-w-0 flex-1 truncate">
+        <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+      </span>
+      <SelectPrimitive.ItemIndicator className="flex">
+        <Icon name="check" className="size-16" />
+      </SelectPrimitive.ItemIndicator>
     </SelectPrimitive.Item>
   );
 }

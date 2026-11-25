@@ -2,7 +2,7 @@ import { type ComponentProps, type ReactNode, useId } from 'react';
 
 import { cn } from '../lib/cn';
 import { FieldFrame } from './field';
-import { fieldControlVariants, type FieldStatus, focusRing, helperId } from './field-control';
+import { describedBy, fieldControlVariants, type FieldStatus, focusRing } from './field-control';
 import { Icon, type IconName } from './icon';
 
 export type InputProps = Omit<ComponentProps<'input'>, 'size'> & {
@@ -20,6 +20,7 @@ export function Input({
   trailingIcon,
   disabled,
   className,
+  'aria-describedby': ariaDescribedBy,
   ...props
 }: InputProps) {
   const fallbackId = useId();
@@ -45,7 +46,7 @@ export function Input({
           id={inputId}
           disabled={disabled}
           aria-invalid={status === 'error' || undefined}
-          aria-describedby={helper ? helperId(inputId) : undefined}
+          aria-describedby={describedBy(inputId, Boolean(helper), ariaDescribedBy)}
           className="min-w-0 flex-1 bg-transparent outline-none placeholder:text-text-muted disabled:cursor-not-allowed disabled:placeholder:text-text-disabled"
           {...props}
         />
