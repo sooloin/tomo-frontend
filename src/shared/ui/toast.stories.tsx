@@ -54,8 +54,8 @@ export const ShowsAndHides: Story = {
   render: Playground.render,
   play: async ({ canvas }) => {
     await userEvent.click(canvas.getByRole('button', { name: '완료 알림' }));
-    const message = await screen.findByText('회고를 저장했어요');
-    await expect(message).toBeVisible();
+    // sonner가 나타나는 동안 내용을 다시 그리므로, 찾은 요소를 들고 있지 않고 매번 새로 찾는다.
+    await waitFor(() => expect(screen.getByText('회고를 저장했어요')).toBeVisible());
     await waitFor(() => expect(screen.queryByText('회고를 저장했어요')).not.toBeInTheDocument(), {
       timeout: 4000,
     });

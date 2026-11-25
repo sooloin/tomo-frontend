@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect } from 'storybook/test';
+import { expect, waitFor } from 'storybook/test';
 
 import { Avatar } from './avatar';
 
@@ -57,7 +57,7 @@ export const BrokenImage: Story = {
 export const WithImage: Story = {
   args: { src: sampleImage, size: 'lg' },
   play: async ({ canvas }) => {
-    const img = await canvas.findByRole('img', { name: '토모' });
-    await expect(img.tagName).toBe('IMG');
+    // 이미지를 불러오는 동안에는 이니셜이 먼저 보이므로, 이미지로 바뀔 때까지 기다린다.
+    await waitFor(() => expect(canvas.getByRole('img', { name: '토모' }).tagName).toBe('IMG'));
   },
 };

@@ -57,7 +57,7 @@ export const Color: Story = {
       ].map(([cls, label]) => (
         <div key={cls} className={`flex flex-col items-center gap-8 ${cls}`}>
           <Icon name="flame" />
-          <code className="text-caption">{label}</code>
+          <code className="text-caption text-text-secondary">{label}</code>
         </div>
       ))}
     </div>
