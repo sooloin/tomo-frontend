@@ -61,7 +61,7 @@ export function IconButton({
       {dot && (
         <span
           aria-hidden
-          className="absolute top-[7px] right-[6px] size-8 rounded-full bg-accent-tomato ring-2 ring-bg-page"
+          className="absolute top-8 right-8 size-8 rounded-full bg-accent-tomato ring-2 ring-bg-page"
         />
       )}
     </button>

@@ -20,7 +20,7 @@ const checkboxVariants = cva(
     variants: {
       shape: {
         circle: 'size-[22px] rounded-full before:inset-[-11px]',
-        square: 'size-20 rounded-[6px] before:inset-[-12px]',
+        square: 'size-20 rounded-xs before:-inset-12',
       },
     },
     defaultVariants: {
