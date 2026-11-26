@@ -20,8 +20,9 @@ export type DialogContentProps = ComponentProps<typeof DialogPrimitive.Content>;
 export function DialogContent({ className, ...props }: DialogContentProps) {
   return (
     <DialogPrimitive.Portal>
-      <DialogPrimitive.Overlay className={dialogOverlayClass} />
-      <DialogPrimitive.Content className={cn(dialogContentClass, className)} {...props} />
+      <DialogPrimitive.Overlay className={dialogOverlayClass}>
+        <DialogPrimitive.Content className={cn(dialogContentClass, className)} {...props} />
+      </DialogPrimitive.Overlay>
     </DialogPrimitive.Portal>
   );
 }

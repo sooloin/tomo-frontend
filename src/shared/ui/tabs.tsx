@@ -26,7 +26,7 @@ export function TabItem({ className, ...props }: TabItemProps) {
   return (
     <TabsPrimitive.Trigger
       className={cn(
-        'inline-flex shrink-0 cursor-pointer items-center border-b-2 border-transparent px-4 py-[10px] whitespace-nowrap transition-colors',
+        'inline-flex h-48 shrink-0 cursor-pointer items-center border-b-2 border-transparent px-4 whitespace-nowrap transition-colors',
         'text-body text-text-secondary hover:text-text-primary',
         'data-[state=active]:border-border-focus data-[state=active]:text-body-bold data-[state=active]:text-text-primary',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus',

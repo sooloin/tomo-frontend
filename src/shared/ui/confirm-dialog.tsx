@@ -68,44 +68,45 @@ export function ConfirmDialog({
     >
       {trigger && <AlertDialog.Trigger asChild>{trigger}</AlertDialog.Trigger>}
       <AlertDialog.Portal>
-        <AlertDialog.Overlay className={dialogOverlayClass} />
-        <AlertDialog.Content
-          className={dialogContentClass}
-          // 설명이 없으면 Radix 경고가 뜨지 않도록 aria-describedby를 비운다는 걸 명시한다.
-          {...(!description && { 'aria-describedby': undefined })}
-        >
-          <div className={dialogHeaderClass}>
-            <AlertDialog.Title className={dialogTitleClass}>{title}</AlertDialog.Title>
-            {description && (
-              <AlertDialog.Description className={dialogDescriptionClass}>
-                {description}
-              </AlertDialog.Description>
-            )}
-          </div>
-          <div className={dialogActionsClass}>
-            {cancelLabel && (
-              <AlertDialog.Cancel asChild>
-                <Button variant="secondary" disabled={pending}>
-                  {cancelLabel}
+        <AlertDialog.Overlay className={dialogOverlayClass}>
+          <AlertDialog.Content
+            className={dialogContentClass}
+            // 설명이 없으면 Radix 경고가 뜨지 않도록 aria-describedby를 비운다는 걸 명시한다.
+            {...(!description && { 'aria-describedby': undefined })}
+          >
+            <div className={dialogHeaderClass}>
+              <AlertDialog.Title className={dialogTitleClass}>{title}</AlertDialog.Title>
+              {description && (
+                <AlertDialog.Description className={dialogDescriptionClass}>
+                  {description}
+                </AlertDialog.Description>
+              )}
+            </div>
+            <div className={dialogActionsClass}>
+              {cancelLabel && (
+                <AlertDialog.Cancel asChild>
+                  <Button variant="secondary" disabled={pending}>
+                    {cancelLabel}
+                  </Button>
+                </AlertDialog.Cancel>
+              )}
+              <AlertDialog.Action asChild>
+                <Button
+                  variant="primary"
+                  disabled={pending}
+                  aria-busy={pending || undefined}
+                  onClick={(event) => {
+                    // Action은 누르면 바로 닫히므로 막고, 끝난 뒤 직접 닫는다.
+                    event.preventDefault();
+                    void handleConfirm();
+                  }}
+                >
+                  {confirmLabel}
                 </Button>
-              </AlertDialog.Cancel>
-            )}
-            <AlertDialog.Action asChild>
-              <Button
-                variant="primary"
-                disabled={pending}
-                aria-busy={pending || undefined}
-                onClick={(event) => {
-                  // Action은 누르면 바로 닫히므로 막고, 끝난 뒤 직접 닫는다.
-                  event.preventDefault();
-                  void handleConfirm();
-                }}
-              >
-                {confirmLabel}
-              </Button>
-            </AlertDialog.Action>
-          </div>
-        </AlertDialog.Content>
+              </AlertDialog.Action>
+            </div>
+          </AlertDialog.Content>
+        </AlertDialog.Overlay>
       </AlertDialog.Portal>
     </AlertDialog.Root>
   );
